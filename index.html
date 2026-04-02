@@ -3,16 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PDF to PPT Title Extractor</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/tesseract.js/5.1.0/tesseract.min.js"></script>
+  <title>PDF to PPT với headline tự động</title>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script src="https://unpkg.com/tesseract.js@5/dist/tesseract.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
+
   <style>
     * { box-sizing: border-box; }
     body {
       margin: 0;
       font-family: Arial, Helvetica, sans-serif;
-      background: #f5f6f8;
+      background: #f3f4f6;
       color: #111827;
     }
     .wrap {
@@ -22,19 +24,20 @@
     }
     .card {
       background: #fff;
-      border-radius: 16px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
-      padding: 20px;
-      margin-bottom: 20px;
+      border-radius: 18px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+      padding: 22px;
+      margin-bottom: 22px;
     }
     h1 {
-      margin: 0 0 8px;
+      margin: 0 0 10px;
       font-size: 30px;
     }
     .sub {
       margin: 0;
       color: #4b5563;
-      line-height: 1.5;
+      line-height: 1.55;
+      font-size: 15px;
     }
     .row {
       display: grid;
@@ -49,9 +52,9 @@
     }
     input[type="file"], input[type="text"], select {
       width: 100%;
-      padding: 12px;
+      padding: 12px 14px;
       border: 1px solid #d1d5db;
-      border-radius: 12px;
+      border-radius: 14px;
       background: #fff;
       font-size: 14px;
     }
@@ -63,32 +66,33 @@
     }
     button {
       border: 0;
-      border-radius: 12px;
+      border-radius: 14px;
       padding: 12px 18px;
       font-size: 14px;
       font-weight: 700;
       cursor: pointer;
     }
     .primary {
-      background: #111827;
+      background: #0f172a;
       color: white;
     }
     .secondary {
       background: #e5e7eb;
       color: #111827;
     }
-    .primary:disabled, .secondary:disabled {
+    button:disabled {
       opacity: 0.55;
       cursor: not-allowed;
     }
     .status {
       margin-top: 14px;
-      padding: 12px;
-      border-radius: 12px;
+      padding: 14px;
+      border-radius: 14px;
       background: #f3f4f6;
       white-space: pre-line;
-      line-height: 1.5;
-      min-height: 56px;
+      line-height: 1.55;
+      min-height: 64px;
+      font-size: 14px;
     }
     .preview-grid {
       display: grid;
@@ -99,29 +103,28 @@
       border: 1px solid #e5e7eb;
       border-radius: 14px;
       overflow: hidden;
-      background: #fff;
+      background: white;
     }
     .preview-title {
       padding: 10px 12px;
       font-size: 14px;
       font-weight: 700;
-      border-bottom: 1px solid #e5e7eb;
       background: #f9fafb;
+      border-bottom: 1px solid #e5e7eb;
     }
-    .preview-body {
-      padding: 12px;
-    }
+    .preview-body { padding: 12px; }
     .thumb {
       width: 100%;
-      border-radius: 10px;
-      border: 1px solid #e5e7eb;
       display: block;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      background: #fff;
     }
     .meta {
       margin-top: 10px;
       font-size: 13px;
-      color: #374151;
       line-height: 1.5;
+      color: #374151;
       word-break: break-word;
     }
     .small {
@@ -190,12 +193,12 @@
     </div>
 
     <div class="footer-note">
-      Mẹo: app này phù hợp nhất cho file concept có layout giống nhau. Vùng OCR đang lấy ở phần header giữa, nên sẽ rất đúng với format giống ví dụ của bạn.
+      Mẹo: app này hợp nhất với file concept có layout giống nhau. Nếu OCR đọc chưa chuẩn, hãy tăng “Độ nét khi đọc PDF” lên 2.5x.
     </div>
   </div>
 
   <script>
-    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.worker.min.js';
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
     const pdfFilesInput = document.getElementById('pdfFiles');
     const pptNameInput = document.getElementById('pptName');
@@ -220,15 +223,14 @@
     }
 
     function sanitizeTitle(text) {
-      return text
+      return (text || '')
         .replace(/[\n\r]+/g, ' ')
         .replace(/\s+/g, ' ')
-        .replace(/[|]/g, ' ')
         .replace(/\bFLC\b.*$/i, '')
         .replace(/\bFW\d{2}\b.*$/i, '')
-        .trim()
+        .replace(/[_|]/g, ' ')
         .replace(/\s+-\s*$/, '')
-        .replace(/\s{2,}/g, ' ')
+        .trim()
         .toUpperCase();
     }
 
@@ -236,10 +238,10 @@
       const w = canvas.width;
       const h = canvas.height;
       return {
-        x: Math.floor(w * 0.32),
-        y: Math.floor(h * 0.015),
-        width: Math.floor(w * 0.40),
-        height: Math.floor(h * 0.07)
+        x: Math.floor(w * 0.33),
+        y: Math.floor(h * 0.02),
+        width: Math.floor(w * 0.41),
+        height: Math.floor(h * 0.08)
       };
     }
 
@@ -249,7 +251,6 @@
       const context = canvas.getContext('2d');
       canvas.width = Math.floor(viewport.width);
       canvas.height = Math.floor(viewport.height);
-
       await page.render({ canvasContext: context, viewport }).promise;
       return canvas;
     }
@@ -260,18 +261,21 @@
       const tempCtx = tempCanvas.getContext('2d');
       tempCanvas.width = crop.width;
       tempCanvas.height = crop.height;
+
+      tempCtx.fillStyle = 'white';
+      tempCtx.fillRect(0, 0, crop.width, crop.height);
       tempCtx.drawImage(
         canvas,
         crop.x, crop.y, crop.width, crop.height,
         0, 0, crop.width, crop.height
       );
 
-      const { data } = await Tesseract.recognize(tempCanvas, lang, {
+      const result = await Tesseract.recognize(tempCanvas.toDataURL('image/png'), lang, {
         logger: () => {}
       });
 
       return {
-        title: sanitizeTitle(data.text || ''),
+        title: sanitizeTitle(result?.data?.text || ''),
         cropCanvas: tempCanvas
       };
     }
@@ -311,26 +315,27 @@
 
       previewGrid.innerHTML = '';
       cachedPages = [];
-
       const scaleValue = Number(pdfScaleInput.value || 2);
       const lang = ocrLangInput.value || 'eng';
       let totalPages = 0;
 
-      setStatus('Đang đọc số trang...');
+      setStatus('Đang đếm số trang...');
+      const fileBuffers = [];
       for (const file of files) {
-        const arrayBuffer = await file.arrayBuffer();
-        const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+        const buffer = await file.arrayBuffer();
+        fileBuffers.push({ file, buffer });
+        const pdf = await pdfjsLib.getDocument({ data: buffer }).promise;
         totalPages += pdf.numPages;
       }
 
       let done = 0;
 
-      for (const file of files) {
-        const arrayBuffer = await file.arrayBuffer();
-        const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+      for (const itemFile of fileBuffers) {
+        const { file, buffer } = itemFile;
+        const pdf = await pdfjsLib.getDocument({ data: buffer }).promise;
 
         for (let p = 1; p <= pdf.numPages; p++) {
-          setStatus(`Đang xử lý ${file.name} | trang ${p}/${pdf.numPages}...\nTổng tiến độ: ${done}/${totalPages}`);
+          setStatus(`Đang xử lý: ${file.name}\nTrang ${p}/${pdf.numPages} | Tổng ${done + 1}/${totalPages}`);
           const page = await pdf.getPage(p);
           const canvas = await renderPdfPageToCanvas(page, scaleValue);
           const { title, cropCanvas } = await ocrHeadlineFromCanvas(canvas, lang);
@@ -338,25 +343,23 @@
           const pageDataUrl = canvas.toDataURL('image/png');
           const cropDataUrl = cropCanvas.toDataURL('image/png');
 
-          const item = {
+          const pageItem = {
             fileName: file.name,
             pageNumber: p,
             title: title || `SLIDE ${done + 1}`,
             pageDataUrl,
-            cropDataUrl,
-            width: canvas.width,
-            height: canvas.height
+            cropDataUrl
           };
 
-          cachedPages.push(item);
-          addPreviewCard(item, done);
+          cachedPages.push(pageItem);
+          addPreviewCard(pageItem, done);
           done += 1;
         }
       }
 
       setStatus(previewOnly
         ? `Đã preview xong ${cachedPages.length} slide.`
-        : `Đã xử lý xong ${cachedPages.length} slide, sẵn sàng xuất PPT.`);
+        : `Đã xử lý xong ${cachedPages.length} slide.`);
 
       return true;
     }
@@ -367,45 +370,42 @@
         if (!ok) return;
       }
 
-      setStatus('Đang tạo file PowerPoint...');
-
+      setStatus('Đang tạo PowerPoint...');
       const pptx = new PptxGenJS();
       pptx.layout = 'LAYOUT_WIDE';
-      pptx.author = 'OpenAI - ChatGPT';
-      pptx.company = 'OpenAI';
-      pptx.subject = 'PDF to PPT with headline';
+      pptx.author = 'ChatGPT';
+      pptx.subject = 'PDF to PPT';
       pptx.title = pptNameInput.value.trim() || 'Footwear_Output';
-      pptx.lang = 'vi-VN';
 
       for (const item of cachedPages) {
         const slide = pptx.addSlide();
-        slide.background = { color: 'F5F5F5' };
+        slide.background = { color: 'F3F4F6' };
 
         slide.addText(item.title, {
           x: 0.3,
-          y: 0.1,
+          y: 0.08,
           w: 12.7,
-          h: 0.45,
-          align: 'center',
-          bold: true,
+          h: 0.42,
           fontFace: 'Arial',
           fontSize: 20,
-          color: '111111',
-          margin: 0
+          bold: true,
+          align: 'center',
+          margin: 0,
+          color: '111111'
         });
 
         slide.addImage({
           data: item.pageDataUrl,
           x: 0,
-          y: 0.8,
+          y: 0.78,
           w: 13.333,
-          h: 6.7
+          h: 6.72
         });
       }
 
-      const outName = (pptNameInput.value.trim() || 'Footwear_Output') + '.pptx';
-      await pptx.writeFile({ fileName: outName });
-      setStatus(`Đã tạo xong file ${outName}`);
+      const fileName = (pptNameInput.value.trim() || 'Footwear_Output') + '.pptx';
+      await pptx.writeFile({ fileName });
+      setStatus(`Đã tạo xong file ${fileName}`);
     }
 
     previewBtn.addEventListener('click', async () => {
@@ -415,7 +415,7 @@
         await buildCache(true);
       } catch (err) {
         console.error(err);
-        setStatus('Có lỗi khi preview: ' + err.message);
+        setStatus('Có lỗi khi preview: ' + (err?.message || err));
       } finally {
         previewBtn.disabled = false;
         generateBtn.disabled = false;
@@ -429,7 +429,7 @@
         await generatePpt();
       } catch (err) {
         console.error(err);
-        setStatus('Có lỗi khi tạo PowerPoint: ' + err.message);
+        setStatus('Có lỗi khi tạo PowerPoint: ' + (err?.message || err));
       } finally {
         previewBtn.disabled = false;
         generateBtn.disabled = false;
