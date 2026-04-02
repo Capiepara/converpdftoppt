@@ -320,19 +320,20 @@
       let totalPages = 0;
 
       setStatus('Đang đếm số trang...');
-      const fileBuffers = [];
+            const fileBuffers = [];
       for (const file of files) {
-        const buffer = await file.arrayBuffer();
-        fileBuffers.push({ file, buffer });
-        const pdf = await pdfjsLib.getDocument({ data: buffer }).promise;
+        const rawBuffer = await file.arrayBuffer();
+        const bytes = new Uint8Array(rawBuffer.slice(0));
+        fileBuffers.push({ file, bytes });
+        const pdf = await pdfjsLib.getDocument({ data: bytes.slice(0) }).promise;
         totalPages += pdf.numPages;
       }
 
       let done = 0;
 
       for (const itemFile of fileBuffers) {
-        const { file, buffer } = itemFile;
-        const pdf = await pdfjsLib.getDocument({ data: buffer }).promise;
+        const { file, bytes } = itemFile;
+        const pdf = await pdfjsLib.getDocument({ data: bytes.slice(0) }).promise;
 
         for (let p = 1; p <= pdf.numPages; p++) {
           setStatus(`Đang xử lý: ${file.name}\nTrang ${p}/${pdf.numPages} | Tổng ${done + 1}/${totalPages}`);
