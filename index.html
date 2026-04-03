@@ -349,7 +349,9 @@
             pageNumber: p,
             title: title || `SLIDE ${done + 1}`,
             pageDataUrl,
-            cropDataUrl
+            cropDataUrl,
+            pageWidth: canvas.width,
+            pageHeight: canvas.height
           };
 
           cachedPages.push(pageItem);
@@ -395,12 +397,35 @@
           color: '111111'
         });
 
+        const boxX = 0.2;
+        const boxY = 0.78;
+        const boxW = 12.93;
+        const boxH = 6.45;
+        const imgW = item.pageWidth || 1;
+        const imgH = item.pageHeight || 1;
+        const imgRatio = imgW / imgH;
+        const boxRatio = boxW / boxH;
+
+        let drawW, drawH, drawX, drawY;
+
+        if (imgRatio > boxRatio) {
+          drawW = boxW;
+          drawH = boxW / imgRatio;
+          drawX = boxX;
+          drawY = boxY + (boxH - drawH) / 2;
+        } else {
+          drawH = boxH;
+          drawW = boxH * imgRatio;
+          drawX = boxX + (boxW - drawW) / 2;
+          drawY = boxY;
+        }
+
         slide.addImage({
           data: item.pageDataUrl,
-          x: 0,
-          y: 0.78,
-          w: 13.333,
-          h: 6.72
+          x: drawX,
+          y: drawY,
+          w: drawW,
+          h: drawH
         });
       }
 
