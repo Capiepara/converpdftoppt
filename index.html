@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PDF to PPT với headline tự động</title>
+  <title>PDF to PPT with Automatic Headline</title>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   <script src="https://unpkg.com/tesseract.js@5/dist/tesseract.min.js"></script>
@@ -145,31 +145,31 @@
 <body>
   <div class="wrap">
     <div class="card">
-      <h1>PDF → PPT với headline tự động</h1>
-      <p class="sub">Upload nhiều file PDF, hệ thống sẽ tạo PowerPoint với 1 slide = 1 trang PDF và thêm title lớn phía trên, lấy từ vùng header giữa của trang.</p>
+      <h1>PDF → PPT with Automatic Headline</h1>
+      <p class="sub">Upload multiple PDF files. The app will create a PowerPoint with 1 slide = 1 PDF page and add a large title at the top, extracted from the center header area of each page.</p>
     </div>
 
     <div class="card">
       <div class="row">
         <div>
-          <label for="pdfFiles">Chọn file PDF</label>
+          <label for="pdfFiles">Choose PDF Files</label>
           <input id="pdfFiles" type="file" accept="application/pdf" multiple />
         </div>
         <div>
-          <label for="pptName">Tên file PowerPoint</label>
+          <label for="pptName">PowerPoint File Name</label>
           <input id="pptName" type="text" value="Footwear_Output" />
         </div>
       </div>
 
       <div class="row" style="margin-top: 14px;">
         <div>
-          <label for="ocrLang">Ngôn ngữ OCR</label>
+          <label for="ocrLang">OCR Language</label>
           <select id="ocrLang">
             <option value="eng" selected>English</option>
           </select>
         </div>
         <div>
-          <label for="pdfScale">Độ nét khi đọc PDF</label>
+          <label for="pdfScale">PDF Render Quality</label>
           <select id="pdfScale">
             <option value="1.5">1.5x</option>
             <option value="2" selected>2x</option>
@@ -179,12 +179,12 @@
       </div>
 
       <div class="btns">
-        <button id="previewBtn" class="secondary">Preview title</button>
-        <button id="generateBtn" class="primary">Tạo PowerPoint</button>
-        <button id="clearBtn" class="secondary">Xóa</button>
+        <button id="previewBtn" class="secondary">Preview Titles</button>
+        <button id="generateBtn" class="primary">Generate PowerPoint</button>
+        <button id="clearBtn" class="secondary">Clear</button>
       </div>
 
-      <div id="status" class="status">Sẵn sàng.</div>
+      <div id="status" class="status">Ready.</div>
     </div>
 
     <div class="card">
@@ -193,7 +193,7 @@
     </div>
 
     <div class="footer-note">
-      Mẹo: app này hợp nhất với file concept có layout giống nhau. Nếu OCR đọc chưa chuẩn, hãy tăng “Độ nét khi đọc PDF” lên 2.5x.
+      Tip: this app works best with concept files that use a consistent layout. If OCR does not read the title correctly, increase “PDF Render Quality” to 2.5x.
     </div>
   </div>
 
@@ -219,7 +219,7 @@
     function clearPreview() {
       previewGrid.innerHTML = '';
       cachedPages = [];
-      setStatus('Đã xóa dữ liệu cũ.');
+      setStatus('Previous data cleared.');
     }
 
     function sanitizeTitle(text) {
@@ -286,7 +286,7 @@
 
       const title = document.createElement('div');
       title.className = 'preview-title';
-      title.textContent = `Slide ${index + 1}: ${item.title || '(không đọc được title)'}`;
+      title.textContent = `Slide ${index + 1}: ${item.title || '(title not detected)'}`;
 
       const body = document.createElement('div');
       body.className = 'preview-body';
@@ -297,7 +297,7 @@
 
       const meta = document.createElement('div');
       meta.className = 'meta';
-      meta.innerHTML = `File: <b>${item.fileName}</b><br>Page: <b>${item.pageNumber}</b><br><span class="small">OCR vùng header giữa</span>`;
+      meta.innerHTML = `File: <b>${item.fileName}</b><br>Page: <b>${item.pageNumber}</b><br><span class="small">OCR from center header area</span>`;
 
       body.appendChild(thumb);
       body.appendChild(meta);
@@ -309,7 +309,7 @@
     async function buildCache(previewOnly = false) {
       const files = Array.from(pdfFilesInput.files || []);
       if (!files.length) {
-        setStatus('Bạn chưa chọn file PDF.');
+        setStatus('Please choose at least one PDF file.');
         return false;
       }
 
@@ -319,7 +319,7 @@
       const lang = ocrLangInput.value || 'eng';
       let totalPages = 0;
 
-      setStatus('Đang đếm số trang...');
+      setStatus('Counting total pages...');
             const fileBuffers = [];
       for (const file of files) {
         const rawBuffer = await file.arrayBuffer();
@@ -336,7 +336,8 @@
         const pdf = await pdfjsLib.getDocument({ data: bytes.slice(0) }).promise;
 
         for (let p = 1; p <= pdf.numPages; p++) {
-          setStatus(`Đang xử lý: ${file.name}\nTrang ${p}/${pdf.numPages} | Tổng ${done + 1}/${totalPages}`);
+          setStatus(`Processing: ${file.name}
+Page ${p}/${pdf.numPages} | Overall ${done + 1}/${totalPages}`);
           const page = await pdf.getPage(p);
           const canvas = await renderPdfPageToCanvas(page, scaleValue);
           const { title, cropCanvas } = await ocrHeadlineFromCanvas(canvas, lang);
@@ -361,8 +362,8 @@
       }
 
       setStatus(previewOnly
-        ? `Đã preview xong ${cachedPages.length} slide.`
-        : `Đã xử lý xong ${cachedPages.length} slide.`);
+        ? `Preview completed for ${cachedPages.length} slides.`
+        : `Processing completed for ${cachedPages.length} slides.`},{);
 
       return true;
     }
@@ -373,7 +374,7 @@
         if (!ok) return;
       }
 
-      setStatus('Đang tạo PowerPoint...');
+      setStatus('Generating PowerPoint...');
       const pptx = new PptxGenJS();
       pptx.layout = 'LAYOUT_WIDE';
       pptx.author = 'ChatGPT';
@@ -431,7 +432,7 @@
 
       const fileName = (pptNameInput.value.trim() || 'Footwear_Output') + '.pptx';
       await pptx.writeFile({ fileName });
-      setStatus(`Đã tạo xong file ${fileName}`);
+      setStatus(`Finished generating ${fileName}`);
     }
 
     previewBtn.addEventListener('click', async () => {
@@ -441,7 +442,7 @@
         await buildCache(true);
       } catch (err) {
         console.error(err);
-        setStatus('Có lỗi khi preview: ' + (err?.message || err));
+        setStatus('Preview error: ' + (err?.message || err));
       } finally {
         previewBtn.disabled = false;
         generateBtn.disabled = false;
@@ -455,7 +456,7 @@
         await generatePpt();
       } catch (err) {
         console.error(err);
-        setStatus('Có lỗi khi tạo PowerPoint: ' + (err?.message || err));
+        setStatus('PowerPoint generation error: ' + (err?.message || err));
       } finally {
         previewBtn.disabled = false;
         generateBtn.disabled = false;
