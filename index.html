@@ -11,135 +11,29 @@
 
   <style>
     * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #f3f4f6;
-      color: #111827;
-    }
-    .wrap {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 24px;
-    }
-    .card {
-      background: #fff;
-      border-radius: 18px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
-      padding: 22px;
-      margin-bottom: 22px;
-    }
-    h1 {
-      margin: 0 0 10px;
-      font-size: 30px;
-    }
-    .sub {
-      margin: 0;
-      color: #4b5563;
-      line-height: 1.55;
-      font-size: 15px;
-    }
-    .row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-    label {
-      display: block;
-      font-size: 14px;
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
-    input[type="file"], input[type="text"], select {
-      width: 100%;
-      padding: 12px 14px;
-      border: 1px solid #d1d5db;
-      border-radius: 14px;
-      background: #fff;
-      font-size: 14px;
-    }
-    .btns {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-top: 18px;
-    }
-    button {
-      border: 0;
-      border-radius: 14px;
-      padding: 12px 18px;
-      font-size: 14px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-    .primary {
-      background: #0f172a;
-      color: white;
-    }
-    .secondary {
-      background: #e5e7eb;
-      color: #111827;
-    }
-    button:disabled {
-      opacity: 0.55;
-      cursor: not-allowed;
-    }
-    .status {
-      margin-top: 14px;
-      padding: 14px;
-      border-radius: 14px;
-      background: #f3f4f6;
-      white-space: pre-line;
-      line-height: 1.55;
-      min-height: 64px;
-      font-size: 14px;
-    }
-    .preview-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 16px;
-    }
-    .preview-item {
-      border: 1px solid #e5e7eb;
-      border-radius: 14px;
-      overflow: hidden;
-      background: white;
-    }
-    .preview-title {
-      padding: 10px 12px;
-      font-size: 14px;
-      font-weight: 700;
-      background: #f9fafb;
-      border-bottom: 1px solid #e5e7eb;
-    }
+    body { margin: 0; font-family: Arial, Helvetica, sans-serif; background: #f3f4f6; color: #111827; }
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 24px; }
+    .card { background: #fff; border-radius: 18px; box-shadow: 0 8px 24px rgba(0,0,0,.06); padding: 22px; margin-bottom: 22px; }
+    h1 { margin: 0 0 10px; font-size: 30px; }
+    .sub { margin: 0; color: #4b5563; line-height: 1.55; font-size: 15px; }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    label { display: block; font-size: 14px; font-weight: 700; margin-bottom: 8px; }
+    input[type="file"], input[type="text"], select { width: 100%; padding: 12px 14px; border: 1px solid #d1d5db; border-radius: 14px; background: #fff; font-size: 14px; }
+    .btns { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 18px; }
+    button { border: 0; border-radius: 14px; padding: 12px 18px; font-size: 14px; font-weight: 700; cursor: pointer; }
+    .primary { background: #0f172a; color: #fff; }
+    .secondary { background: #e5e7eb; color: #111827; }
+    button:disabled { opacity: .55; cursor: not-allowed; }
+    .status { margin-top: 14px; padding: 14px; border-radius: 14px; background: #f3f4f6; white-space: pre-line; line-height: 1.55; min-height: 64px; font-size: 14px; }
+    .preview-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+    .preview-item { border: 1px solid #e5e7eb; border-radius: 14px; overflow: hidden; background: #fff; }
+    .preview-title { padding: 10px 12px; font-size: 14px; font-weight: 700; background: #f9fafb; border-bottom: 1px solid #e5e7eb; }
     .preview-body { padding: 12px; }
-    .thumb {
-      width: 100%;
-      display: block;
-      border: 1px solid #e5e7eb;
-      border-radius: 10px;
-      background: #fff;
-    }
-    .meta {
-      margin-top: 10px;
-      font-size: 13px;
-      line-height: 1.5;
-      color: #374151;
-      word-break: break-word;
-    }
-    .small {
-      font-size: 12px;
-      color: #6b7280;
-    }
-    .footer-note {
-      color: #6b7280;
-      font-size: 13px;
-      line-height: 1.6;
-    }
-    @media (max-width: 800px) {
-      .row { grid-template-columns: 1fr; }
-      h1 { font-size: 24px; }
-    }
+    .thumb { width: 100%; display: block; border: 1px solid #e5e7eb; border-radius: 10px; background: #fff; }
+    .meta { margin-top: 10px; font-size: 13px; line-height: 1.5; color: #374151; word-break: break-word; }
+    .small { font-size: 12px; color: #6b7280; }
+    .footer-note { color: #6b7280; font-size: 13px; line-height: 1.6; }
+    @media (max-width: 800px) { .row { grid-template-columns: 1fr; } h1 { font-size: 24px; } }
   </style>
 </head>
 <body>
@@ -161,12 +55,10 @@
         </div>
       </div>
 
-      <div class="row" style="margin-top: 14px;">
+      <div class="row" style="margin-top:14px;">
         <div>
           <label for="ocrLang">OCR Language</label>
-          <select id="ocrLang">
-            <option value="eng" selected>English</option>
-          </select>
+          <select id="ocrLang"><option value="eng" selected>English</option></select>
         </div>
         <div>
           <label for="pdfScale">PDF Render Quality</label>
@@ -179,294 +71,186 @@
       </div>
 
       <div class="btns">
-        <button id="previewBtn" class="secondary">Preview Titles</button>
-        <button id="generateBtn" class="primary">Generate PowerPoint</button>
-        <button id="clearBtn" class="secondary">Clear</button>
+        <button id="previewBtn" class="secondary" type="button">Preview Titles</button>
+        <button id="generateBtn" class="primary" type="button">Generate PowerPoint</button>
+        <button id="clearBtn" class="secondary" type="button">Clear</button>
       </div>
 
       <div id="status" class="status">Ready.</div>
     </div>
 
     <div class="card">
-      <h2 style="margin-top: 0;">Preview</h2>
+      <h2 style="margin-top:0;">Preview</h2>
       <div id="previewGrid" class="preview-grid"></div>
     </div>
 
-    <div class="footer-note">
-      Tip: this app works best with concept files that use a consistent layout. If OCR does not read the title correctly, increase “PDF Render Quality” to 2.5x.
-    </div>
+    <div class="footer-note">Tip: this app works best with concept files that use a consistent layout. If OCR does not read the title correctly, increase “PDF Render Quality” to 2.5x.</div>
   </div>
 
   <script>
-    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    window.addEventListener('DOMContentLoaded', function () {
+      pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
-    const pdfFilesInput = document.getElementById('pdfFiles');
-    const pptNameInput = document.getElementById('pptName');
-    const ocrLangInput = document.getElementById('ocrLang');
-    const pdfScaleInput = document.getElementById('pdfScale');
-    const previewBtn = document.getElementById('previewBtn');
-    const generateBtn = document.getElementById('generateBtn');
-    const clearBtn = document.getElementById('clearBtn');
-    const statusBox = document.getElementById('status');
-    const previewGrid = document.getElementById('previewGrid');
+      const pdfFilesInput = document.getElementById('pdfFiles');
+      const pptNameInput = document.getElementById('pptName');
+      const ocrLangInput = document.getElementById('ocrLang');
+      const pdfScaleInput = document.getElementById('pdfScale');
+      const previewBtn = document.getElementById('previewBtn');
+      const generateBtn = document.getElementById('generateBtn');
+      const clearBtn = document.getElementById('clearBtn');
+      const statusBox = document.getElementById('status');
+      const previewGrid = document.getElementById('previewGrid');
 
-    let cachedPages = [];
+      let cachedPages = [];
 
-    function setStatus(text) {
-      statusBox.textContent = text;
-    }
-
-    function clearPreview() {
-      previewGrid.innerHTML = '';
-      cachedPages = [];
-      setStatus('Previous data cleared.');
-    }
-
-    function sanitizeTitle(text) {
-      return (text || '')
-        .replace(/[\n\r]+/g, ' ')
-        .replace(/\s+/g, ' ')
-        .replace(/\bFLC\b.*$/i, '')
-        .replace(/\bFW\d{2}\b.*$/i, '')
-        .replace(/[_|]/g, ' ')
-        .replace(/\s+-\s*$/, '')
-        .trim()
-        .toUpperCase();
-    }
-
-    function getCropBox(canvas) {
-      const w = canvas.width;
-      const h = canvas.height;
-      return {
-        x: Math.floor(w * 0.33),
-        y: Math.floor(h * 0.02),
-        width: Math.floor(w * 0.41),
-        height: Math.floor(h * 0.08)
-      };
-    }
-
-    async function renderPdfPageToCanvas(page, scaleValue) {
-      const viewport = page.getViewport({ scale: scaleValue });
-      const canvas = document.createElement('canvas');
-      const context = canvas.getContext('2d');
-      canvas.width = Math.floor(viewport.width);
-      canvas.height = Math.floor(viewport.height);
-      await page.render({ canvasContext: context, viewport }).promise;
-      return canvas;
-    }
-
-    async function ocrHeadlineFromCanvas(canvas, lang) {
-      const crop = getCropBox(canvas);
-      const tempCanvas = document.createElement('canvas');
-      const tempCtx = tempCanvas.getContext('2d');
-      tempCanvas.width = crop.width;
-      tempCanvas.height = crop.height;
-
-      tempCtx.fillStyle = 'white';
-      tempCtx.fillRect(0, 0, crop.width, crop.height);
-      tempCtx.drawImage(
-        canvas,
-        crop.x, crop.y, crop.width, crop.height,
-        0, 0, crop.width, crop.height
-      );
-
-      const result = await Tesseract.recognize(tempCanvas.toDataURL('image/png'), lang, {
-        logger: () => {}
-      });
-
-      return {
-        title: sanitizeTitle(result?.data?.text || ''),
-        cropCanvas: tempCanvas
-      };
-    }
-
-    function addPreviewCard(item, index) {
-      const wrapper = document.createElement('div');
-      wrapper.className = 'preview-item';
-
-      const title = document.createElement('div');
-      title.className = 'preview-title';
-      title.textContent = `Slide ${index + 1}: ${item.title || '(title not detected)'}`;
-
-      const body = document.createElement('div');
-      body.className = 'preview-body';
-
-      const thumb = document.createElement('img');
-      thumb.className = 'thumb';
-      thumb.src = item.cropDataUrl;
-
-      const meta = document.createElement('div');
-      meta.className = 'meta';
-      meta.innerHTML = `File: <b>${item.fileName}</b><br>Page: <b>${item.pageNumber}</b><br><span class="small">OCR from center header area</span>`;
-
-      body.appendChild(thumb);
-      body.appendChild(meta);
-      wrapper.appendChild(title);
-      wrapper.appendChild(body);
-      previewGrid.appendChild(wrapper);
-    }
-
-    async function buildCache(previewOnly = false) {
-      const files = Array.from(pdfFilesInput.files || []);
-      if (!files.length) {
-        setStatus('Please choose at least one PDF file.');
-        return false;
+      function setStatus(text) { statusBox.textContent = text; }
+      function sanitizeTitle(text) {
+        return (text || '')
+          .replace(/[\n\r]+/g, ' ')
+          .replace(/\s+/g, ' ')
+          .replace(/[_|]/g, ' ')
+          .replace(/\bFLC\b.*$/i, '')
+          .replace(/\bFW\d{2}\b.*$/i, '')
+          .replace(/\s+-\s*$/, '')
+          .trim()
+          .toUpperCase();
       }
-
-      previewGrid.innerHTML = '';
-      cachedPages = [];
-      const scaleValue = Number(pdfScaleInput.value || 2);
-      const lang = ocrLangInput.value || 'eng';
-      let totalPages = 0;
-
-      setStatus('Counting total pages...');
-            const fileBuffers = [];
-      for (const file of files) {
-        const rawBuffer = await file.arrayBuffer();
-        const bytes = new Uint8Array(rawBuffer.slice(0));
-        fileBuffers.push({ file, bytes });
-        const pdf = await pdfjsLib.getDocument({ data: bytes.slice(0) }).promise;
-        totalPages += pdf.numPages;
+      function getCropBox(canvas) {
+        const w = canvas.width;
+        const h = canvas.height;
+        return { x: Math.floor(w * 0.33), y: Math.floor(h * 0.02), width: Math.floor(w * 0.41), height: Math.floor(h * 0.08) };
       }
-
-      let done = 0;
-
-      for (const itemFile of fileBuffers) {
-        const { file, bytes } = itemFile;
-        const pdf = await pdfjsLib.getDocument({ data: bytes.slice(0) }).promise;
-
-        for (let p = 1; p <= pdf.numPages; p++) {
-          setStatus(`Processing: ${file.name}
-Page ${p}/${pdf.numPages} | Overall ${done + 1}/${totalPages}`);
-          const page = await pdf.getPage(p);
-          const canvas = await renderPdfPageToCanvas(page, scaleValue);
-          const { title, cropCanvas } = await ocrHeadlineFromCanvas(canvas, lang);
-
-          const pageDataUrl = canvas.toDataURL('image/png');
-          const cropDataUrl = cropCanvas.toDataURL('image/png');
-
-          const pageItem = {
-            fileName: file.name,
-            pageNumber: p,
-            title: title || `SLIDE ${done + 1}`,
-            pageDataUrl,
-            cropDataUrl,
-            pageWidth: canvas.width,
-            pageHeight: canvas.height
-          };
-
-          cachedPages.push(pageItem);
-          addPreviewCard(pageItem, done);
-          done += 1;
-        }
+      async function renderPage(page, scale) {
+        const viewport = page.getViewport({ scale });
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = Math.floor(viewport.width);
+        canvas.height = Math.floor(viewport.height);
+        await page.render({ canvasContext: ctx, viewport }).promise;
+        return canvas;
       }
-
-      setStatus(previewOnly
-        ? `Preview completed for ${cachedPages.length} slides.`
-        : `Processing completed for ${cachedPages.length} slides.`););
-
-      return true;
-    }
-
-    async function generatePpt() {
-      if (!cachedPages.length) {
-        const ok = await buildCache(false);
-        if (!ok) return;
+      async function ocrTitle(canvas, lang) {
+        const crop = getCropBox(canvas);
+        const temp = document.createElement('canvas');
+        const ctx = temp.getContext('2d');
+        temp.width = crop.width;
+        temp.height = crop.height;
+        ctx.fillStyle = 'white';
+        ctx.fillRect(0, 0, temp.width, temp.height);
+        ctx.drawImage(canvas, crop.x, crop.y, crop.width, crop.height, 0, 0, crop.width, crop.height);
+        const result = await Tesseract.recognize(temp.toDataURL('image/png'), lang);
+        return { title: sanitizeTitle(result.data.text), cropDataUrl: temp.toDataURL('image/png') };
       }
+      function addPreviewCard(item, index) {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'preview-item';
+        wrapper.innerHTML = `
+          <div class="preview-title">Slide ${index + 1}: ${item.title || '(title not detected)'}</div>
+          <div class="preview-body">
+            <img class="thumb" src="${item.cropDataUrl}" />
+            <div class="meta">File: <b>${item.fileName}</b><br>Page: <b>${item.pageNumber}</b><br><span class="small">OCR from center header area</span></div>
+          </div>`;
+        previewGrid.appendChild(wrapper);
+      }
+      async function buildCache(previewOnly) {
+        const files = Array.from(pdfFilesInput.files || []);
+        if (!files.length) { setStatus('Please choose at least one PDF file.'); return false; }
 
-      setStatus('Generating PowerPoint...');
-      const pptx = new PptxGenJS();
-      pptx.layout = 'LAYOUT_WIDE';
-      pptx.author = 'ChatGPT';
-      pptx.subject = 'PDF to PPT';
-      pptx.title = pptNameInput.value.trim() || 'Footwear_Output';
+        previewGrid.innerHTML = '';
+        cachedPages = [];
+        const scale = Number(pdfScaleInput.value || 2);
+        const lang = ocrLangInput.value || 'eng';
+        let totalPages = 0;
+        const fileData = [];
 
-      for (const item of cachedPages) {
-        const slide = pptx.addSlide();
-        slide.background = { color: 'F3F4F6' };
-
-        slide.addText(item.title, {
-          x: 0.3,
-          y: 0.08,
-          w: 12.7,
-          h: 0.42,
-          fontFace: 'Arial',
-          fontSize: 20,
-          bold: true,
-          align: 'center',
-          margin: 0,
-          color: '111111'
-        });
-
-        const boxX = 0.2;
-        const boxY = 0.78;
-        const boxW = 12.93;
-        const boxH = 6.45;
-        const imgW = item.pageWidth || 1;
-        const imgH = item.pageHeight || 1;
-        const imgRatio = imgW / imgH;
-        const boxRatio = boxW / boxH;
-
-        let drawW, drawH, drawX, drawY;
-
-        if (imgRatio > boxRatio) {
-          drawW = boxW;
-          drawH = boxW / imgRatio;
-          drawX = boxX;
-          drawY = boxY + (boxH - drawH) / 2;
-        } else {
-          drawH = boxH;
-          drawW = boxH * imgRatio;
-          drawX = boxX + (boxW - drawW) / 2;
-          drawY = boxY;
+        setStatus('Counting total pages...');
+        for (const file of files) {
+          const raw = await file.arrayBuffer();
+          const bytes = new Uint8Array(raw);
+          const pdfForCount = await pdfjsLib.getDocument({ data: bytes.slice(0) }).promise;
+          totalPages += pdfForCount.numPages;
+          fileData.push({ file, bytes });
         }
 
-        slide.addImage({
-          data: item.pageDataUrl,
-          x: drawX,
-          y: drawY,
-          w: drawW,
-          h: drawH
-        });
+        let done = 0;
+        for (const fd of fileData) {
+          const pdf = await pdfjsLib.getDocument({ data: fd.bytes.slice(0) }).promise;
+          for (let p = 1; p <= pdf.numPages; p++) {
+            setStatus(`Processing: ${fd.file.name}\nPage ${p}/${pdf.numPages} | Overall ${done + 1}/${totalPages}`);
+            const page = await pdf.getPage(p);
+            const canvas = await renderPage(page, scale);
+            const ocr = await ocrTitle(canvas, lang);
+            const item = {
+              fileName: fd.file.name,
+              pageNumber: p,
+              title: ocr.title || `SLIDE ${done + 1}`,
+              cropDataUrl: ocr.cropDataUrl,
+              pageDataUrl: canvas.toDataURL('image/png'),
+              pageWidth: canvas.width,
+              pageHeight: canvas.height
+            };
+            cachedPages.push(item);
+            addPreviewCard(item, done);
+            done++;
+          }
+        }
+        setStatus(previewOnly ? `Preview completed for ${cachedPages.length} slides.` : `Processing completed for ${cachedPages.length} slides.`);
+        return true;
+      }
+      async function generatePpt() {
+        if (!cachedPages.length) {
+          const ok = await buildCache(false);
+          if (!ok) return;
+        }
+        setStatus('Generating PowerPoint...');
+        const pptx = new PptxGenJS();
+        pptx.layout = 'LAYOUT_WIDE';
+        pptx.author = 'ChatGPT';
+        pptx.subject = 'PDF to PPT';
+        pptx.title = pptNameInput.value.trim() || 'Footwear_Output';
+
+        for (const item of cachedPages) {
+          const slide = pptx.addSlide();
+          slide.background = { color: 'F3F4F6' };
+          slide.addText(item.title, { x: 0.3, y: 0.08, w: 12.7, h: 0.42, fontFace: 'Arial', fontSize: 20, bold: true, align: 'center', margin: 0, color: '111111' });
+
+          const boxX = 0.2, boxY = 0.78, boxW = 12.93, boxH = 6.45;
+          const imgRatio = item.pageWidth / item.pageHeight;
+          const boxRatio = boxW / boxH;
+          let drawW, drawH, drawX, drawY;
+          if (imgRatio > boxRatio) {
+            drawW = boxW; drawH = boxW / imgRatio; drawX = boxX; drawY = boxY + (boxH - drawH) / 2;
+          } else {
+            drawH = boxH; drawW = boxH * imgRatio; drawX = boxX + (boxW - drawW) / 2; drawY = boxY;
+          }
+          slide.addImage({ data: item.pageDataUrl, x: drawX, y: drawY, w: drawW, h: drawH });
+        }
+        const fileName = (pptNameInput.value.trim() || 'Footwear_Output') + '.pptx';
+        await pptx.writeFile({ fileName });
+        setStatus(`Finished generating ${fileName}`);
       }
 
-      const fileName = (pptNameInput.value.trim() || 'Footwear_Output') + '.pptx';
-      await pptx.writeFile({ fileName });
-      setStatus(`Finished generating ${fileName}`);
-    }
-
-    previewBtn.addEventListener('click', async () => {
-      previewBtn.disabled = true;
-      generateBtn.disabled = true;
-      try {
-        await buildCache(true);
-      } catch (err) {
-        console.error(err);
-        setStatus('Preview error: ' + (err?.message || err));
-      } finally {
-        previewBtn.disabled = false;
-        generateBtn.disabled = false;
-      }
-    });
-
-    generateBtn.addEventListener('click', async () => {
-      previewBtn.disabled = true;
-      generateBtn.disabled = true;
-      try {
-        await generatePpt();
-      } catch (err) {
-        console.error(err);
-        setStatus('PowerPoint generation error: ' + (err?.message || err));
-      } finally {
-        previewBtn.disabled = false;
-        generateBtn.disabled = false;
-      }
-    });
-
-    clearBtn.addEventListener('click', () => {
-      pdfFilesInput.value = '';
-      pptNameInput.value = 'Footwear_Output';
-      clearPreview();
+      previewBtn.onclick = async function () {
+        previewBtn.disabled = true;
+        generateBtn.disabled = true;
+        try { await buildCache(true); }
+        catch (err) { console.error(err); setStatus('Preview error: ' + (err.message || err)); }
+        finally { previewBtn.disabled = false; generateBtn.disabled = false; }
+      };
+      generateBtn.onclick = async function () {
+        previewBtn.disabled = true;
+        generateBtn.disabled = true;
+        try { await generatePpt(); }
+        catch (err) { console.error(err); setStatus('PowerPoint generation error: ' + (err.message || err)); }
+        finally { previewBtn.disabled = false; generateBtn.disabled = false; }
+      };
+      clearBtn.onclick = function () {
+        pdfFilesInput.value = '';
+        pptNameInput.value = 'Footwear_Output';
+        previewGrid.innerHTML = '';
+        cachedPages = [];
+        setStatus('Previous data cleared.');
+      };
     });
   </script>
 </body>
